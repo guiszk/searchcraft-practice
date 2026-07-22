@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<title>searchcrafting practice</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="styles.css">
+<style>
+</style>
+<script src="script.js"></script>
+
+<body>
+
+<div id="item" style="display: none;">
+    <div style="display: flex;">
+        <div style="margin-right: 10px; color: gray;">Craft: </div>
+        <div id="namediv">Diamond Sword</div>
+    </div>
+    <div style="display: flex;">
+        <div style="margin-right: 10px; color: gray;">Shortcut: </div>
+        <div id="shortcutdiv">d sw</div>
+    </div>
+</div>
+
+<div style="text-align: center;">
+    <div id="keyboardpreview"></div>
+    <div id="shiftpreview" style="display: none;"></div>
+</div>
+
+<div id="buttonsdiv">
+    <button class="mc-button" onclick="run();" onkeyup="(arguments[0] || window.event).preventDefault();">run</button>
+    <br>
+    <button class="mc-button" onclick="document.getElementById('newlayout').value = '`18+45\nswort\naebnd\npickg'; run();">doogile layout</button>
+    <br>
+    <!-- <br>
+    <button class="mc-button" onclick="document.getElementById('newlayout').value = '`x8+45\nbwert\nasdno\npickg'; run();">guiszk layout</button>
+    <br> -->
+    <button class="mc-button" onclick="randomlayout();">random layout</button>
+    <br>
+    <button class="mc-button" onclick="document.getElementById('newlayout').value = `\`1234567890-=\nqwertyuiop[]\\\nasdfghjkl;'\nzxcvbnm,./`; run();">reset layout</button>
+</div>
+
+<div id="textareas">
+    <div>
+        <p>Layout</p>
+        <textarea id="newlayout">
+`1234567890-=
+qwertyuiop[]\
+asdfghjkl;'
+zxcvbnm,./
+        </textarea>
+    </div>
+
+    <div>
+        <p>Shift Layout</p>
+        <textarea id="shiftlayout">
+`x8+45
+bwert
+asdno
+pickg
+        </textarea>
+    </div>
+
+    <div>
+        <p>Shortcuts</p>
+        <textarea id="shortcuts">
+General Bastion::ro
+Beds::be
+Ingots::ngo
+Iron Ingots::on i
+Iron Axe::on a
+Iron Sword::on sw
+Iron Axe::+8
+Iron Sword::+5
+Stone Sword::+4
+Diamond Sword::d sw
+Golden Carrots::rr
+Wool::wo
+Bed / Bow::ow
+Glowstone::ws
+Nether Bricks::ne
+Nether Bricks::er
+Sticks::tic
+Powder + Eyes::de
+Ender Eyes:: e
+Shears::ear
+Bow / Crossbow::bow
+Respawn Anchors::aw
+All Pickaxes::ka
+Tripwire Hook::ok
+Iron Ingots::ot
+Bucket::ke
+Golden Apple::pp
+Shield::ie
+Fishing Rod:: r
+All Shovels::5
+Iron Bars::bar
+Bread::bre
+Boat::oat
+Axes / Pickaxes::x
+Gold Nuggets::d n
+Flint and Steel::t a
+Planks::ks
+Door + Trapdoor::do
+        </textarea>
+    </div>
+</div>
+
+<textarea id="oglayout" style="display: none;">
+`1234567890-=
+qwertyuiop[]\
+asdfghjkl;'
+zxcvbnm,./
+</textarea>
+
+<div id="aboutbtndiv">
+    <button class="mc-button" onclick="abouttoggle();">about</button>
+</div>
+
+<div id="aboutdiv" style="display: none;">
+    web app for testing mcsr searchcrafting layouts.
+    <br>
+    no LLMs were used in this project.
+    <br>
+    <a href="https://github.com/guiszk/searchcraft-practice">project link</a>
+</div>
+
+</body>
+</html>
