@@ -168,7 +168,9 @@ document.addEventListener('keydown', (event) => {
     //console.log(switchedshiftlayout);
     //console.log(oglayoutfull);
     
-    keyloc = oglayoutfull.replace(/(\r\n|\n|\r)/gm, "").indexOf(event.key.toLowerCase());
+    // number line changes to ~!@#$%^&*()_+ when shift is pressed
+    chosenlayout = shiftheld ? "~!@#$%^&*()_+"+oglayoutfull.slice(13) : oglayoutfull;
+    keyloc = chosenlayout.replace(/(\r\n|\n|\r)/gm, "").indexOf(event.key.toLowerCase());
 
 
     sim_key = shiftheld ? switchedshiftlayout[keyloc] : switchedlayout[keyloc];
