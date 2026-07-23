@@ -93,6 +93,10 @@ textarea {
     width: fit-content;
 }
 
+#hiddendiv {
+    display: none;
+}
+
 .mc-button {
     font-family: Minecraftia;
     text-align: center;
