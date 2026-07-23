@@ -99,18 +99,26 @@ function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
 function chooseitem() {
     pressnum = 0;
 
-    shortcuts = document.getElementById("shortcuts").value.replace(/^\s+|\s+$/g, '').split("\n");
+    shortcuts = document.getElementById("shortcuts").value.trim().split("\n");
     chosen = shortcuts[Math.floor(Math.random() * shortcuts.length)];
+    chosen = chosen.replace("_", " ");
     item = chosen.split("::")[0];
     sc = chosen.split("::")[1];
+    console.log(chosen);
 
     itemdiv = document.getElementById("item");
 
     namediv = document.getElementById("namediv");
     shortcutdiv = document.getElementById("shortcutdiv");
 
+    if(sc.includes("/")) {
+        scs = sc.split("/");
+        shortcutdiv.innerHTML = scs[Math.floor(Math.random() * scs.length)];
+    } else {
+        shortcutdiv.innerHTML = sc;
+    }
+
     namediv.innerHTML = item;
-    shortcutdiv.innerHTML = sc;
 
     return([item, sc]);
 }
@@ -206,17 +214,52 @@ document.addEventListener('keyup', (event) => {
 });
 
 function randomlayout() {
-    var keys = 'x8+45swortaebndpickg';
+    var keys = document.getElementById("newlayout").value.split("\n").join("");
     var shuffled = keys.split('').sort(() => Math.random() - 0.5);
     shuffled.splice(5, 0, "\n");
     shuffled.splice(11, 0, "\n");
     shuffled.splice(17, 0, "\n");
     
-    document.getElementById('newlayout').value = '`' + shuffled.join("");
+    document.getElementById('newlayout').value = shuffled.join("");
     run();
 }
 
 function abouttoggle() {
     aboutdiv = document.getElementById("aboutdiv");
     aboutdiv.style.display = (aboutdiv.style.display == "none") ? "block" : "none"
+}
+
+// language changing
+function layoutchange(lang) {
+    switch(lang) {
+        case 'nynorsk':
+            shortcuts = "Flint and Steel::dj\nBucket::by\nBoat::bå\nIron pick::nha\nIngots::ba/rnb/nba\nBread::rø/ød\nTNT::tnt\nGold pick/Gold helmet::lh\nBed::se\nGarrot::ot/lr\nIron/Stone axe::+8\nIron/Stone sword::nsv\nBars::gi\nSticks::pi\nWool:: u\nBricks+Glowstone::gl\nBricks::h\nWool:: u/it\nGlowstone::es/lø\nSticks::pi\nBeds::se/eng\nAnchors::ps/ea\nBow::oge/bog\nPicks::lha\nBars::gi\nPowder/Eyes::er\nGapple::ep\nTripwire hook::åd/nu/le\nCrossbow::øs";
+            layout = "ådbvjy\npserl\nogitu\nønhak";
+            shiftlayout = "4+BV8Y\nNSERD\nØGITU\nPLHAK";
+            break;
+        case 'doog':
+            shortcuts = "General Bastion::ro\nBeds::be\nIngots::ngo\nIron Ingots::on i\nIron Axe::on a\nIron Sword::on sw\nIron Axe::+8\nIron Sword::+5\nStone Sword::+4\nDiamond Sword::d sw\nGolden Carrots::rr\nWool::wo\nBed / Bow::ow\nGlowstone::ws\nNether Bricks::ne\nNether Bricks::er\nSticks::tic\nPowder + Eyes::de\nEnder Eyes:: e\nShears::ear\nBow / Crossbow::bow\nRespawn Anchors::aw\nAll Pickaxes::ka\nTripwire Hook::ok\nIron Ingots::ot\nBucket::ke\nGolden Apple::pp\nShield::ie\nFishing Rod:: r\nAll Shovels::5\nIron Bars::bar\nBread::bre\nBoat::oat\nAxes / Pickaxes::x\nGold Nuggets::d n\nFlint and Steel::t a\nPlanks::ks\nDoor + Trapdoor::do";
+            layout = '`18+45\nswort\naebnd\npickg';
+            shiftlayout = '`18+45\nswort\naebnd\npickg';
+            break
+        case 'bokmål':
+            shortcuts = 'Flint and Steel::ål\nBucket::bø\nBoat::bå\nIron Pick::nha\nIngots::ba\nBread::rø\nTnt::tnt\nIngot::rnb/nba\nGold Pick/Gold Helmet::lhj\nBed::n_/l_\nGarrot::lr\nIron/Stone Axe::nø\nIron/Stone Sword::nsv\nBars::gi\nSticks::pi\nWool::h\nBricks::eg/th\nGlowstone::es/lø\nPowder::lv\nEyes::ye\nBeds::l_\nAnchors::iv\nBow::ue\nPicks::lha\nGapple::lep/epl\nTripwire Hook::nu\nCrossbow::øs';
+            layout = '`ueiv5\nplrg\njnha\nåøb4';
+            shiftlayout = '`ueiv\nplrg\njnha\nåøb4';
+            break
+        case 'danish':
+            shortcuts = "Ingot::rr\nBread::rø\nIron/stone axe::nø\nGold/wood axe::6\nBucket::pan\nFlint and Steel::_o/g_/å/\nTNT::tn\nBoat::bå\nShears::sa\nStone axe::enø\nStone sword::+4/nsv/ensv\nStone shovel::ensp/ens\nDiamond pick::tha\nStone axe::ø\nIron pick::nha\nChalice craft::dh\nBed + Garrot::n_\nRespawn anchor::no\nStone axe::nø/enø\nStone sword::+4\nStone shovel::nsp/ensp\nIron ingot::rnb\nIron axe::nø/rnø\nIron bars::rnt\nIron sword::nsv/rnsv\nIron shovel::nsp/rnsp\nGold apple::_æ\nNether bricks::ne/th/he\nGlowstone::ød/lø/es\nWool::_u/d_/h\nSticks::pi/nd\nBow::bue\nBed + Garrot::n_\nAnchor::no\nGold pick::dha\nTripwire::nu\nCrossbow::øs";
+            layout = "`dhaø\nnsvt\nåuero\næibp";
+            shiftlayout = "`dhaø\nnsvt\nåuero\næibp";
+            break
+        default:
+            shortcuts = "General Bastion::ro\nBeds::be\nIngots::ngo\nIron Ingots::on i\nIron Axe::on a\nIron Sword::on sw\nIron Axe::+8\nIron Sword::+5\nStone Sword::+4\nDiamond Sword::d sw\nGolden Carrots::rr\nWool::wo\nBed / Bow::ow\nGlowstone::ws\nNether Bricks::ne\nNether Bricks::er\nSticks::tic\nPowder + Eyes::de\nEnder Eyes:: e\nShears::ear\nBow / Crossbow::bow\nRespawn Anchors::aw\nAll Pickaxes::ka\nTripwire Hook::ok\nIron Ingots::ot\nBucket::ke\nGolden Apple::pp\nShield::ie\nFishing Rod:: r\nAll Shovels::5\nIron Bars::bar\nBread::bre\nBoat::oat\nAxes / Pickaxes::x\nGold Nuggets::d n\nFlint and Steel::t a\nPlanks::ks\nDoor + Trapdoor::do";
+            layout = "`1234567890-=\nqwertyuiop[]\nasdfghjkl;'\nzxcvbnm,./";
+            shiftlayout = "`x8+45\nbwert\nasdno\npickg";
+    } 
+    
+    document.getElementById('shortcuts').value = shortcuts;
+    document.getElementById('newlayout').value = layout;
+    document.getElementById('shiftlayout').value = shiftlayout;
+    run();
 }
