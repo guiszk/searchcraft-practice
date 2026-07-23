@@ -103,7 +103,7 @@ function chooseitem() {
     chosen = shortcuts[Math.floor(Math.random() * shortcuts.length)];
     //chosen = chosen.replace("_", " ");
     item = chosen.split("::")[0];
-    sc = chosen.split("::")[1].replace(" ", "_");
+    sc = chosen.split("::")[1].replaceAll(" ", "_");
     console.log(chosen);
 
     itemdiv = document.getElementById("item");
@@ -142,7 +142,7 @@ document.addEventListener('keydown', (event) => {
     if (event.keyCode === 32) { 
         event.preventDefault(); 
     }
-    shortcutval = document.getElementById("shortcutdiv").innerText.replace(" ", "_");
+    shortcutval = document.getElementById("shortcutdiv").innerText.replaceAll(" ", "_");
     
     prevdiv = document.getElementById("keyboardpreview");
     shiftdiv = document.getElementById("shiftpreview");
@@ -245,7 +245,7 @@ function layoutchange(lang) {
             shiftlayout = '`18+45\nswort\naebnd\npickg';
             break
         case 'bokmål':
-            shortcuts = 'Flint and Steel::ål\nBucket::bø\nBoat::bå\nIron Pick::nha\nIngots::ba\nBread::rø\nTnt::tnt\nIngot::rnb/nba\nGold Pick/Gold Helmet::lhj\nBed::n_/l_\nGarrot::lr\nIron/Stone Axe::nø\nIron/Stone Sword::nsv\nBars::gi\nSticks::pi\nWool::h\nBricks::eg/th\nGlowstone::es/lø\nPowder::lv\nEyes::ye\nBeds::l_\nAnchors::iv\nBow::ue\nPicks::lha\nGapple::lep/epl\nTripwire Hook::nu\nCrossbow::øs';
+            shortcuts = 'Flint and Steel::ål\nBucket::bø\nBoat::bå\nIron Pick::nha\nIngots::ba\nBread::rø\nTNT::tnt\nIngot::rnb/nba\nGold Pick/Gold Helmet::lhj\nBed::n_/l_\nGarrot::lr\nIron/Stone Axe::nø\nIron/Stone Sword::nsv\nBars::gi\nSticks::pi\nWool::h\nBricks::eg/th\nGlowstone::es/lø\nPowder::lv\nEyes::ye\nBeds::l_\nAnchors::iv\nBow::ue\nPicks::lha\nGapple::lep/epl\nTripwire Hook::nu\nCrossbow::øs';
             layout = '`ueiv5\nplrg\njnha\nåøb4';
             shiftlayout = '`ueiv\nplrg\njnha\nåøb4';
             break
@@ -263,5 +263,30 @@ function layoutchange(lang) {
     document.getElementById('shortcuts').value = shortcuts;
     document.getElementById('newlayout').value = layout;
     document.getElementById('shiftlayout').value = shiftlayout;
+
     run();
+}
+
+function compare() {
+    shortcuts = document.getElementById('shortcuts').value.replaceAll("_", "");
+    layout = document.getElementById('newlayout').value;
+    comparediv = document.getElementById('comparediv');
+
+    scjoin = shortcuts.split("\n");
+    scvals = "";
+    for (let i = 0; i < scjoin.length; i++) {
+        scvals += scjoin[i].split("::")[1];
+    }
+    scunique = [...new Set(scvals)];
+    lyunique = [...new Set(layout)];
+    console.log(scunique);
+    comparediv.innerHTML = `<div class='layouttext'>The layout doesn't contain these keys: <div class='missingkeys'>${scunique.filter(x => !lyunique.includes(x)).join(" ")}</div></div><br>`;
+    comparediv.innerHTML += `<div class='layouttext'>The layout contains these extra keys: <div class='missingkeys'>${lyunique.filter(x => !scunique.includes(x)).join(" ")}</div></div>`;
+
+    setTimeout(() => {
+        comparediv.innerHTML = "";
+    }, 10 * 1000);
+
+    //alert(scunique.filter(x => !lyunique.includes(x)));
+    //return scunique.filter(x => !lyunique.includes(x));
 }

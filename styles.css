@@ -68,6 +68,21 @@ body {
     width: 400px;
 }
 
+#comparediv {
+    margin-top: 20px;
+    color: gray;
+}
+
+.layouttext {
+    display: inline-flex;
+}
+
+.missingkeys {
+    color: rgb(203, 203, 203);
+    margin-left: 10px;
+}
+
+
 a {
     text-decoration: none;
     color: #14b1ee;
@@ -87,6 +102,7 @@ textarea {
   border-radius: 5px;
   border: 3px solid orange;
   margin: 10px;
+  padding: 6px;
 }
 
 #textareas {
