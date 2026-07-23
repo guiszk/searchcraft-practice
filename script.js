@@ -45,7 +45,7 @@ function run(){
 
 function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
     keysize = 15;
-    const extras = ['Tab', 'Caps', 'Shift', 'aaaaaaa']
+    const extras = ['aaAa', 'aaaaa', 'aaaaaaa']
 
 
     //const element = array[k];
@@ -56,7 +56,7 @@ function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
         // add extra keys
         if(i>0) {
             extrael = document.createElement("div");
-            extrael.innerHTML = extras[i];
+            extrael.innerHTML = extras[i-1];
             extrael.style = `color: transparent; width: auto; height: ${keysize}px; border-color: #dbdbdb36; align-items: center; justify-content: center; border-style: solid; display:flex; padding: 10px; margin: 5px; border-radius: 5px`;
             extrael.classList += ["key_" + extras[i]];
             newline.appendChild(extrael);
@@ -138,71 +138,73 @@ function colorchange(key, col) {
 var shiftheld = false;
 
 document.addEventListener('keydown', (event) => {
-    //prevent spacebar clicking button
-    if (event.keyCode === 32) { 
-        event.preventDefault(); 
-    }
-    shortcutval = document.getElementById("shortcutdiv").innerText.replaceAll(" ", "_");
-    
-    prevdiv = document.getElementById("keyboardpreview");
-    shiftdiv = document.getElementById("shiftpreview");
-
-    var oglayoutfull = document.getElementById("oglayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
-    var oglayout = oglayoutfull.split("\n");
-    var newlayoutfull = document.getElementById("newlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
-    var newlayout = newlayoutfull.split("\n");
-    var shiftlayoutfull = document.getElementById("shiftlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
-    var shiftlayout = shiftlayoutfull.split("\n");
-    var switchedlayout = "";
-    var switchedshiftlayout = "";
-
-    for (let i = 0; i < oglayout.length; i++) {
-        for (let j = 0; j < oglayout[i].length; j++) {
-            if(j < newlayout[i].length) {
-                switchedlayout += newlayout[i][j];
-            } else {
-                switchedlayout += oglayout[i][j];
-            }
-
-            if(j < shiftlayout[i].length) {
-                switchedshiftlayout += shiftlayout[i][j];
-            } else {
-                switchedshiftlayout += oglayout[i][j];
-            }
+    if(document.activeElement.tagName != "TEXTAREA") {
+        //prevent spacebar clicking button
+        if (event.keyCode === 32) { 
+            event.preventDefault(); 
         }
-    }
-
-    //console.log(switchedlayout);
-    //console.log(switchedshiftlayout);
-    //console.log(oglayoutfull);
-    
-    // number line changes to ~!@#$%^&*()_+ when shift is pressed
-    chosenlayout = shiftheld ? "~!@#$%^&*()_+"+oglayoutfull.slice(13) : oglayoutfull;
-    keyloc = chosenlayout.replace(/(\r\n|\n|\r)/gm, "").indexOf(event.key.toLowerCase());
-
-
-    sim_key = shiftheld ? switchedshiftlayout[keyloc] : switchedlayout[keyloc];
-    console.log(sim_key, event.key);
-
-    if(!["Alt", "Control", "Tab"].includes(sim_key)) {
-        if(event.key == "Shift") {
-            shiftheld = true;
-            prevdiv.style = "display: none";
-            shiftdiv.style = "display: block";
-        } else if(event.key == " ") {
-            sim_key = "_";
-        }
-        if((sim_key == shortcutval[0] && pressnum != 1) || sim_key == shortcutval[pressnum]) {
-            pressnum += 1;
-            //console.log("Correct!" + sim_key); 
-            colorchange(sim_key, "#00ff2253");
-        } else {
-            colorchange(sim_key, "#ff000087");
-            pressnum = 0;
-        }
+        shortcutval = document.getElementById("shortcutdiv").innerText.replaceAll(" ", "_");
         
-        if(pressnum == shortcutval.length) {
-            chooseitem();
+        prevdiv = document.getElementById("keyboardpreview");
+        shiftdiv = document.getElementById("shiftpreview");
+
+        var oglayoutfull = document.getElementById("oglayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
+        var oglayout = oglayoutfull.split("\n");
+        var newlayoutfull = document.getElementById("newlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
+        var newlayout = newlayoutfull.split("\n");
+        var shiftlayoutfull = document.getElementById("shiftlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
+        var shiftlayout = shiftlayoutfull.split("\n");
+        var switchedlayout = "";
+        var switchedshiftlayout = "";
+
+        for (let i = 0; i < oglayout.length; i++) {
+            for (let j = 0; j < oglayout[i].length; j++) {
+                if(j < newlayout[i].length) {
+                    switchedlayout += newlayout[i][j];
+                } else {
+                    switchedlayout += oglayout[i][j];
+                }
+
+                if(j < shiftlayout[i].length) {
+                    switchedshiftlayout += shiftlayout[i][j];
+                } else {
+                    switchedshiftlayout += oglayout[i][j];
+                }
+            }
+        }
+
+        //console.log(switchedlayout);
+        //console.log(switchedshiftlayout);
+        //console.log(oglayoutfull);
+        
+        // number line changes to ~!@#$%^&*()_+ when shift is pressed
+        chosenlayout = shiftheld ? "~!@#$%^&*()_+"+oglayoutfull.slice(13) : oglayoutfull;
+        keyloc = chosenlayout.replace(/(\r\n|\n|\r)/gm, "").indexOf(event.key.toLowerCase());
+
+
+        sim_key = shiftheld ? switchedshiftlayout[keyloc] : switchedlayout[keyloc];
+        console.log(sim_key, event.key);
+
+        if(!["Alt", "Control", "Tab"].includes(sim_key)) {
+            if(event.key == "Shift") {
+                shiftheld = true;
+                prevdiv.style = "display: none";
+                shiftdiv.style = "display: block";
+            } else if(event.key == " ") {
+                sim_key = "_";
+            }
+            if((sim_key == shortcutval[0] && pressnum != 1) || sim_key == shortcutval[pressnum]) {
+                pressnum += 1;
+                //console.log("Correct!" + sim_key); 
+                colorchange(sim_key, "#00ff2253");
+            } else {
+                colorchange(sim_key, "#ff000087");
+                pressnum = 0;
+            }
+            
+            if(pressnum == shortcutval.length) {
+                chooseitem();
+            }
         }
     }
 });
@@ -269,7 +271,7 @@ function layoutchange(lang) {
 
 function compare() {
     shortcuts = document.getElementById('shortcuts').value.replaceAll("_", "");
-    layout = document.getElementById('newlayout').value;
+    layout = document.getElementById('newlayout').value + document.getElementById('shiftlayout').value;
     comparediv = document.getElementById('comparediv');
 
     scjoin = shortcuts.split("\n");
