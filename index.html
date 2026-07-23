@@ -29,14 +29,21 @@
 <div id="buttonsdiv">
     <button class="mc-button" onclick="run();" onkeyup="(arguments[0] || window.event).preventDefault();">run</button>
     <br>
-    <button class="mc-button" onclick="document.getElementById('newlayout').value = '`18+45\nswort\naebnd\npickg'; run();">doogile layout</button>
+    <button class="mc-button" onclick="layoutchange('doog');">doogile layout</button>
     <br>
     <!-- <br>
     <button class="mc-button" onclick="document.getElementById('newlayout').value = '`x8+45\nbwert\nasdno\npickg'; run();">guiszk layout</button>
     <br> -->
     <button class="mc-button" onclick="randomlayout();">random layout</button>
     <br>
-    <button class="mc-button" onclick="document.getElementById('newlayout').value = `\`1234567890-=\nqwertyuiop[]\\\nasdfghjkl;'\nzxcvbnm,./`; run();">reset layout</button>
+    <button class="mc-button" onclick="layoutchange('');">reset layout</button>
+    <br>
+    <br>
+    <button class="mc-button" onclick="layoutchange('nynorsk');">Nynorsk</button>
+    <br>
+    <button class="mc-button" onclick="layoutchange('bokmål');">Bokmål</button>
+    <br>
+    <button class="mc-button" onclick="layoutchange('danish');">Danish</button>
 </div>
 
 <div id="textareas">
@@ -105,12 +112,15 @@ Door + Trapdoor::do
     </div>
 </div>
 
-<textarea id="oglayout" style="display: none;">
+<div id="hiddendiv">
+<textarea id="oglayout">
 `1234567890-=
 qwertyuiop[]\
 asdfghjkl;'
 zxcvbnm,./
 </textarea>
+</div>
+
 
 <div id="aboutbtndiv">
     <button class="mc-button" onclick="abouttoggle();">about</button>
@@ -119,7 +129,7 @@ zxcvbnm,./
 <div id="aboutdiv" style="display: none;">
     web app for testing mcsr searchcrafting layouts.
     <br>
-    add new shortcuts in the format <i>Item name::shortcut</i>
+    add new shortcuts in the format Item name::shortcut1/shortcut2/etc
     <br>
     no LLMs were used in this project.
     <br>
