@@ -90,7 +90,7 @@ function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
     newline.style = "display:flex; margin-left: 160px";
     spacebar = document.createElement("div");
     spacebar.style = `width: 300px; height: ${keysize+5}px; border-color: gray; align-items: center; justify-content: center; border-style: solid; display:flex; padding: 5px; margin: 5px; border-radius: 5px`;
-    spacebar.classList += ["key_ "]
+    spacebar.classList += ["key__"]
     newline.appendChild(spacebar);
     prevdiv.appendChild(newline);
 
@@ -101,9 +101,9 @@ function chooseitem() {
 
     shortcuts = document.getElementById("shortcuts").value.trim().split("\n");
     chosen = shortcuts[Math.floor(Math.random() * shortcuts.length)];
-    chosen = chosen.replace("_", " ");
+    //chosen = chosen.replace("_", " ");
     item = chosen.split("::")[0];
-    sc = chosen.split("::")[1];
+    sc = chosen.split("::")[1].replace(" ", "_");
     console.log(chosen);
 
     itemdiv = document.getElementById("item");
@@ -142,16 +142,16 @@ document.addEventListener('keydown', (event) => {
     if (event.keyCode === 32) { 
         event.preventDefault(); 
     }
-    shortcutval = document.getElementById("shortcutdiv").innerText;
+    shortcutval = document.getElementById("shortcutdiv").innerText.replace(" ", "_");
     
     prevdiv = document.getElementById("keyboardpreview");
     shiftdiv = document.getElementById("shiftpreview");
 
-    var newlayoutfull = document.getElementById("newlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
-    var newlayout = newlayoutfull.split("\n");
     var oglayoutfull = document.getElementById("oglayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
     var oglayout = oglayoutfull.split("\n");
-    var shiftlayoutfull = document.getElementById("shiftlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase();
+    var newlayoutfull = document.getElementById("newlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
+    var newlayout = newlayoutfull.split("\n");
+    var shiftlayoutfull = document.getElementById("shiftlayout").value.replace(/^\s+|\s+$/g, '').toLowerCase() + " ";
     var shiftlayout = shiftlayoutfull.split("\n");
     var switchedlayout = "";
     var switchedshiftlayout = "";
@@ -182,13 +182,15 @@ document.addEventListener('keydown', (event) => {
 
 
     sim_key = shiftheld ? switchedshiftlayout[keyloc] : switchedlayout[keyloc];
-    //console.log(sim_key, event.key);
+    console.log(sim_key, event.key);
 
     if(!["Alt", "Control", "Tab"].includes(sim_key)) {
         if(event.key == "Shift") {
             shiftheld = true;
             prevdiv.style = "display: none";
             shiftdiv.style = "display: block";
+        } else if(event.key == " ") {
+            sim_key = "_";
         }
         if((sim_key == shortcutval[0] && pressnum != 1) || sim_key == shortcutval[pressnum]) {
             pressnum += 1;
@@ -233,7 +235,7 @@ function abouttoggle() {
 function layoutchange(lang) {
     switch(lang) {
         case 'nynorsk':
-            shortcuts = "Flint and Steel::dj\nBucket::by\nBoat::bå\nIron pick::nha\nIngots::ba/rnb/nba\nBread::rø/ød\nTNT::tnt\nGold pick/Gold helmet::lh\nBed::se\nGarrot::ot/lr\nIron/Stone axe::+8\nIron/Stone sword::nsv\nBars::gi\nSticks::pi\nWool:: u\nBricks+Glowstone::gl\nBricks::h\nWool:: u/it\nGlowstone::es/lø\nSticks::pi\nBeds::se/eng\nAnchors::ps/ea\nBow::oge/bog\nPicks::lha\nBars::gi\nPowder/Eyes::er\nGapple::ep\nTripwire hook::åd/nu/le\nCrossbow::øs";
+            shortcuts = "Flint and Steel::dj\nBucket::by\nBoat::bå\nIron pick::nha\nIngots::ba/rnb/nba\nBread::rø/ød\nTNT::tnt\nGold pick/Gold helmet::lh\nBed::se\nGarrot::ot/lr\nIron/Stone axe::+8\nIron/Stone sword::nsv\nBars::gi\nSticks::pi\nWool:: u\nBricks+Glowstone::gl\nBricks::h\nWool::_u/it\nGlowstone::es/lø\nSticks::pi\nBeds::se/eng\nAnchors::ps/ea\nBow::oge/bog\nPicks::lha\nBars::gi\nPowder/Eyes::er\nGapple::ep\nTripwire hook::åd/nu/le\nCrossbow::øs";
             layout = "ådbvjy\npserl\nogitu\nønhak";
             shiftlayout = "4+BV8Y\nNSERD\nØGITU\nPLHAK";
             break;
