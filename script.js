@@ -45,7 +45,7 @@ function run(){
 
 function addextrakeys(col, w, keysize, inhtml, alttxt, newline) {
     extrael = document.createElement("div");
-    if (inhtml === "") {
+    if (inhtml == "" || inhtml == undefined) {
         inhtml = alttxt;
         col = "gray";
     }
@@ -58,9 +58,6 @@ function addextrakeys(col, w, keysize, inhtml, alttxt, newline) {
 
 function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
     keysize = 15;
-    //const extras = ['aaAa', 'aaaaa', 'aaaaaaa']
-
-    //const element = array[k];
     
     //iterate through lines
     for (let i = 0; i < oglayout.length; i++) {
