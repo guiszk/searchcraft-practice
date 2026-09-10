@@ -43,24 +43,74 @@ function run(){
     chooseitem();
 }
 
+function addextrakeys(col, w, keysize, inhtml, alttxt, newline) {
+    extrael = document.createElement("div");
+    if (inhtml === "") {
+        inhtml = alttxt;
+        col = "gray";
+    }
+    extrael.style = `color: ${col}; width: ${w}px; height: ${keysize}px; border-color: #dbdbdb36; align-items: center; justify-content: center; border-style: solid; display:flex; padding: 10px; margin: 5px; border-radius: 5px`;
+
+    extrael.classList += ["key_" + inhtml];
+    extrael.innerHTML = inhtml;
+    newline.appendChild(extrael);
+}
+
 function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
     keysize = 15;
-    const extras = ['aaAa', 'aaaaa', 'aaaaaaa']
-
+    //const extras = ['aaAa', 'aaaaa', 'aaaaaaa']
 
     //const element = array[k];
+    
+    //iterate through lines
     for (let i = 0; i < oglayout.length; i++) {
         newline = document.createElement("div");
         newline.style = "display:flex;";
 
         // add extra keys
-        if(i>0) {
-            extrael = document.createElement("div");
-            extrael.innerHTML = extras[i-1];
-            extrael.style = `color: transparent; width: auto; height: ${keysize}px; border-color: #dbdbdb36; align-items: center; justify-content: center; border-style: solid; display:flex; padding: 10px; margin: 5px; border-radius: 5px`;
-            extrael.classList += ["key_" + extras[i]];
-            newline.appendChild(extrael);
+        //var extras = document.getElementById("extras").value.replace(/(\r\n|\n|\r)/gm, "").toLowerCase();
+
+        var extras = []
+        
+        for (let index = 0; index < document.getElementById("extras").value.split("\n").length; index++) {
+            extras.push(document.getElementById("extras").value.split("\n")[index].toLowerCase());
         }
+        console.log(extras);
+        col = "";
+        w = 50;
+        inhtml = "";
+
+        if(i < 4 && i > 0) {
+            switch (i) {
+                case 1:
+                    w = 50;
+                    inhtml = extras[0]; //tab
+                    alttxt = "tab";
+                    col = "white";
+                    break;
+                case 2:
+                    w = 70;
+                    inhtml = extras[1]; //caps
+                    alttxt = "caps";
+                    col = "white";
+                    break;
+                case 3:
+                    w = 90;
+                    inhtml = "shift"; //shift
+                    alttxt = "shift";
+                    col = "gray";
+                    break;
+                    
+                default:
+                    col = "white";
+                    alttxt = "";
+                    break;
+            }
+
+            //(col, w, keysize, extras, inhtml, newline)
+
+            addextrakeys(col, w, 15, inhtml, alttxt, newline);
+        } 
 
         //iterate through rows
         for (let j = 0; j < oglayout[i].length; j++) {
@@ -86,13 +136,19 @@ function renderkeys(layout, oglayout, prevdiv, bordercol, caps) {
 
 
     //add spacebar
-    newline = document.createElement("div");
-    newline.style = "display:flex; margin-left: 160px";
+    spaceline = document.createElement("div");
+    spaceline.style = "display:flex;";
+
+    addextrakeys("white", 21, 15, extras[2], "ctrl", spaceline); //ctrl
+    addextrakeys("gray", 21, 15, "fn", "fn", spaceline); //fn
+    addextrakeys("white", 21, 15, extras[3], "win", spaceline); //win
+    addextrakeys("white", 21, 15, extras[4], "alt", spaceline); //alt
+
     spacebar = document.createElement("div");
-    spacebar.style = `width: 300px; height: ${keysize+5}px; border-color: gray; align-items: center; justify-content: center; border-style: solid; display:flex; padding: 5px; margin: 5px; border-radius: 5px`;
+    spacebar.style = `width: 300px; height: 25px; border-color: gray; align-items: center; justify-content: center; border-style: solid; display:flex; padding: 5px; margin: 5px; border-radius: 5px`;
     spacebar.classList += ["key__"]
-    newline.appendChild(spacebar);
-    prevdiv.appendChild(newline);
+    spaceline.appendChild(spacebar);
+    prevdiv.appendChild(spaceline);
 
 }
 
@@ -140,7 +196,11 @@ var shiftheld = false;
 document.addEventListener('keydown', (event) => {
     if(document.activeElement.tagName != "TEXTAREA") {
         //prevent spacebar clicking button
-        if (event.keyCode === 32) { 
+        /*if (event.keyCode === 32 || event.keyCode === 0 || event.keyCode === 9 || event.keyCode === 18) { 
+            event.preventDefault(); 
+        }*/
+       console.log(event.code);
+       if("Tab,CapsLock,ControlLeft,MetaLeft,AltLeft".split(",").includes(event.code)) { 
             event.preventDefault(); 
         }
         shortcutval = document.getElementById("shortcutdiv").innerText.replaceAll(" ", "_");
@@ -156,6 +216,19 @@ document.addEventListener('keydown', (event) => {
         var shiftlayout = shiftlayoutfull.split("\n");
         var switchedlayout = "";
         var switchedshiftlayout = "";
+        var extrakeys = []
+        
+        for (let index = 0; index < document.getElementById("extras").value.split("\n").length; index++) {
+            extrakeys.push(document.getElementById("extras").value.split("\n")[index].toLowerCase());
+        }
+        console.log("extrakeys", extrakeys);
+        var extralayout = {
+            "Tab": extrakeys[0],
+            "CapsLock": extrakeys[1],
+            "Control": extrakeys[2],
+            "Meta": extrakeys[3],
+            "Alt": extrakeys[4]
+        }
 
         for (let i = 0; i < oglayout.length; i++) {
             for (let j = 0; j < oglayout[i].length; j++) {
@@ -185,27 +258,30 @@ document.addEventListener('keydown', (event) => {
         sim_key = shiftheld ? switchedshiftlayout[keyloc] : switchedlayout[keyloc];
         console.log(sim_key, event.key);
 
-        if(!["Alt", "Control", "Tab"].includes(sim_key)) {
-            if(event.key == "Shift") {
-                shiftheld = true;
-                prevdiv.style = "display: none";
-                shiftdiv.style = "display: block";
-            } else if(event.key == " ") {
-                sim_key = "_";
-            }
-            if((sim_key == shortcutval[0] && pressnum != 1) || sim_key == shortcutval[pressnum]) {
-                pressnum += 1;
-                //console.log("Correct!" + sim_key); 
-                colorchange(sim_key, "#00ff2253");
-            } else {
-                colorchange(sim_key, "#ff000087");
-                pressnum = 0;
-            }
-            
-            if(pressnum == shortcutval.length) {
-                chooseitem();
-            }
+        //if(!["Alt", "Control", "Tab"].includes(sim_key)) {
+        if(["Tab", "CapsLock", "Control", "Meta", "Alt"].includes(event.key)) {
+            sim_key = extralayout[event.key];
         }
+        if(event.key == "Shift") {
+            shiftheld = true;
+            prevdiv.style = "display: none";
+            shiftdiv.style = "display: block";
+        } else if(event.key == " ") {
+            sim_key = "_";
+        }
+        if((sim_key == shortcutval[0] && pressnum != 1) || sim_key == shortcutval[pressnum]) {
+            pressnum += 1;
+            //console.log("Correct!" + sim_key); 
+            colorchange(sim_key, "#00ff2253");
+        } else {
+            colorchange(sim_key, "#ff000087");
+            pressnum = 0;
+        }
+        
+        if(pressnum == shortcutval.length) {
+            chooseitem();
+        }
+        //}
     }
 });
 
