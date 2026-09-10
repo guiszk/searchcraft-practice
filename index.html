@@ -15,7 +15,7 @@
         <div style="margin-right: 10px; color: gray;">Craft: </div>
         <div id="namediv">Diamond Sword</div>
     </div>
-    <div style="display: flex;">
+    <div id="shortcutparent" style="display: flex;">
         <div style="margin-right: 10px; color: gray;">Shortcut: </div>
         <div id="shortcutdiv">d sw</div>
     </div>
@@ -37,6 +37,8 @@
     <button class="mc-button" onclick="randomlayout();">random layout</button>
     <br>
     <button class="mc-button" onclick="compare();">compare</button>
+    <br>
+    <button class="mc-button" onclick="shortcuthide(this);">hide shortcut</button>
     <br>
     <button class="mc-button" onclick="layoutchange('');">reset layout</button>
     <br>

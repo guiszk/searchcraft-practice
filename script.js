@@ -242,9 +242,9 @@ function layoutchange(lang) {
             shiftlayout = "4+BV8Y\nNSERD\nØGITU\nPLHAK";
             break;
         case 'doog':
-            shortcuts = "General Bastion::ro\nBeds::be\nIngots::ngo\nIron Ingots::on i\nIron Axe::on a\nIron Sword::on sw\nIron Axe::+8\nIron Sword::+5\nStone Sword::+4\nDiamond Sword::d sw\nGolden Carrots::rr\nWool::wo\nBed / Bow::ow\nGlowstone::ws\nNether Bricks::ne\nNether Bricks::er\nSticks::tic\nPowder + Eyes::de\nEnder Eyes:: e\nShears::ear\nBow / Crossbow::bow\nRespawn Anchors::aw\nAll Pickaxes::ka\nTripwire Hook::ok\nIron Ingots::ot\nBucket::ke\nGolden Apple::pp\nShield::ie\nFishing Rod:: r\nAll Shovels::5\nIron Bars::bar\nBread::bre\nBoat::oat\nAxes / Pickaxes::x\nGold Nuggets::d n\nFlint and Steel::t a\nPlanks::ks\nDoor + Trapdoor::do";
+            shortcuts = "Iron tools+ingots::ro\nBeds::be\nIngots::ngo\nIron Ingots::on i\nIron Axe::on a\nIron Sword::on sw\nIron Axe::+8\nIron Sword::+5\nStone Sword::+4\nDiamond Sword::d sw\nGolden Carrots::rr\nWool::wo\nBed / Bow::ow\nGlowstone::ws\nNether Bricks::ne\nNether Bricks::er\nSticks::tic\nPowder + Eyes::de\nEnder Eyes:: e\nShears::ear\nBow / Crossbow::bow\nRespawn Anchors::aw\nAll Pickaxes::ka\nTripwire Hook::ok\nIron Ingots::ot\nBucket::ke\nGolden Apple::pp\nShield::ie\nFishing Rod:: r\nAll Shovels::5\nIron Bars::bar\nBread::bre\nBoat::oat\nAxes / Pickaxes::x\nGold Nuggets::d n\nFlint and Steel::t a\nPlanks::ks\nDoor + Trapdoor::do";
             layout = '`18+45\nswort\naebnd\npickg';
-            shiftlayout = '`18+45\nswort\naebnd\npickg';
+            shiftlayout = '`18+45\nswort\naebnd\npxckg';
             break
         case 'bokmål':
             shortcuts = 'Flint and Steel::ål\nBucket::bø\nBoat::bå\nIron Pick::nha\nIngots::ba\nBread::rø\nTNT::tnt\nIngot::rnb/nba\nGold Pick/Gold Helmet::lhj\nBed::n_/l_\nGarrot::lr\nIron/Stone Axe::nø\nIron/Stone Sword::nsv\nBars::gi\nSticks::pi\nWool::h\nBricks::eg/th\nGlowstone::es/lø\nPowder::lv\nEyes::ye\nBeds::l_\nAnchors::iv\nBow::ue\nPicks::lha\nGapple::lep/epl\nTripwire Hook::nu\nCrossbow::øs';
@@ -257,7 +257,7 @@ function layoutchange(lang) {
             shiftlayout = "`dhaø\nnsvt\nåuero\næibp";
             break
         default:
-            shortcuts = "General Bastion::ro\nBeds::be\nIngots::ngo\nIron Ingots::on i\nIron Axe::on a\nIron Sword::on sw\nIron Axe::+8\nIron Sword::+5\nStone Sword::+4\nDiamond Sword::d sw\nGolden Carrots::rr\nWool::wo\nBed / Bow::ow\nGlowstone::ws\nNether Bricks::ne\nNether Bricks::er\nSticks::tic\nPowder + Eyes::de\nEnder Eyes:: e\nShears::ear\nBow / Crossbow::bow\nRespawn Anchors::aw\nAll Pickaxes::ka\nTripwire Hook::ok\nIron Ingots::ot\nBucket::ke\nGolden Apple::pp\nShield::ie\nFishing Rod:: r\nAll Shovels::5\nIron Bars::bar\nBread::bre\nBoat::oat\nAxes / Pickaxes::x\nGold Nuggets::d n\nFlint and Steel::t a\nPlanks::ks\nDoor + Trapdoor::do";
+            shortcuts = "Iron tools+ingots::ro\nBeds::be\nIngots::ngo\nIron Ingots::on i\nIron Axe::on a\nIron Sword::on sw\nIron Axe::+8\nIron Sword::+5\nStone Sword::+4\nDiamond Sword::d sw\nGolden Carrots::rr\nWool::wo\nBed / Bow::ow\nGlowstone::ws\nNether Bricks::ne\nNether Bricks::er\nSticks::tic\nPowder + Eyes::de\nEnder Eyes:: e\nShears::ear\nBow / Crossbow::bow\nRespawn Anchors::aw\nAll Pickaxes::ka\nTripwire Hook::ok\nIron Ingots::ot\nBucket::ke\nGolden Apple::pp\nShield::ie\nFishing Rod:: r\nAll Shovels::5\nIron Bars::bar\nBread::bre\nBoat::oat\nAxes / Pickaxes::x\nGold Nuggets::d n\nFlint and Steel::t a\nPlanks::ks\nDoor + Trapdoor::do";
             layout = "`1234567890-=\nqwertyuiop[]\nasdfghjkl;'\nzxcvbnm,./";
             shiftlayout = "`1234567890-=\nqwertyuiop[]\nasdfghjkl;'\nzxcvbnm,./";//"`x8+45\nbwert\nasdno\npickg";
     } 
@@ -291,4 +291,15 @@ function compare() {
 
     //alert(scunique.filter(x => !lyunique.includes(x)));
     //return scunique.filter(x => !lyunique.includes(x));
+}
+
+function shortcuthide(clickedbtn) {
+    sp = document.getElementById("shortcutparent");
+    if(sp.style.display == "none") {
+        clickedbtn.innerHTML = "hide shortcut";
+        sp.style = "display: flex";
+    } else {
+        sp.style = "display: none";
+        clickedbtn.innerHTML = "show shortcut";
+    }
 }
